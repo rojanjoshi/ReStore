@@ -1,9 +1,13 @@
+
 import { createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import { Container } from "@mui/system";
 import { useState } from "react";
-
+import { Route } from "react-router-dom";
+import AboutPage from "../../features/about/AboutPage";
 import Catalog from "../../features/catalog/Catalog";
-
+import ProductDetails from "../../features/catalog/ProductDetails";
+import ContactPage from "../../features/contact/ContactPage";
+import HomePage from "../../features/home/HomePage";
 import Header from "./Header";
 
 function App() {
@@ -22,14 +26,34 @@ function App() {
     setDarkMode(!darkMode);
   }
 
+
+
   return (
-   <ThemeProvider theme={theme}>
-      <CssBaseline/>
+
+    <>
+    <div style={{background:'#eaeaea'}}>
      <Header darkMode={darkMode} handleThemeChange={handleThemeChange}/>
-     <Container>
-     <Catalog />
-     </Container>
-     </ThemeProvider>
+     <div className="container" >
+        <Route  exact path='/' component={HomePage}/>
+      <Route exact path='/catalog' component={Catalog}/>
+      <Route  path='/catalog/:id' component={ProductDetails}/>
+     <Route  path='/about' component={AboutPage}/>
+     <Route  path='/contact' component={ContactPage}/>
+     </div>
+     </div>
+    </>
+  //  <ThemeProvider theme={theme}>
+  //     <CssBaseline/>
+  //    <Header darkMode={darkMode} handleThemeChange={handleThemeChange}/>
+  //    <Container>
+  //     <Route  exact path='/' component={HomePage}/>
+  //     <Route exact path='/catalog' component={Catalog}/>
+  //     <Route  path='/catalog/:id' component={ProductDetails}/>
+  //     <Route  path='/about' component={AboutPage}/>
+  //     <Route  path='/contact' component={ContactPage}/>
+     
+  //    </Container>
+  //    </ThemeProvider>
      
    
     
