@@ -2,6 +2,9 @@ import { Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import agent from "../../app/api/agent";
+import NotFound from "../../app/errors/NotFound";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Product } from "../../app/models/product";
 
 export default function ProductDetails() {
@@ -12,16 +15,15 @@ export default function ProductDetails() {
   const [loading, setloading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5021/api/Products/${id}`)
-      .then((response) => setproduct(response.data))
+    agent.Catalog.details(parseInt(id))
+      .then((response) => setproduct(response))
       .catch((error) => console.log(error))
       .finally(() => setloading(false));
   }, [id]);
 
-  if (loading) return <h3>Loading...</h3>;
+  if (loading) return <LoadingComponent message='Loading products...' />
 
-  if (!product) return <h3>Product not found</h3>;
+  if (!product) return <NotFound/>
   return (
     <div className="row" style={{padding:'50px', paddingTop:'30px'}}>
       <div className="col-6">

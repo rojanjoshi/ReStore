@@ -11,7 +11,7 @@ import ProductList from "./ProductList";
 export default function Catalog() {
   const [products, setproducts] = useState<Product[]>([]);
   useEffect(()=>{
-    fetch('http://localhost:5021/api/products')
+    fetch('http://localhost:5021/products')
     .then(response=>response.json())
     .then(data=>setproducts(data))
   },[])
