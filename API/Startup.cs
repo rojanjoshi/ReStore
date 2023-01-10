@@ -18,6 +18,7 @@ namespace API
 {
     public class Startup
     {
+         
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -39,7 +40,23 @@ namespace API
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddCors();
+
+            services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowOrigin",
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:3000", "http://localhost:3000")
+                                .AllowAnyHeader()
+                                
+                                .AllowCredentials()
+                                .AllowAnyMethod();
+        });
+});
+
+
+
+            //  services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,9 +73,15 @@ namespace API
 
             app.UseRouting();
 
-            app.UseCors(opt=>{
-                opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
-            });
+            
+            
+            app.UseCors("AllowOrigin");
+            
+            
+            // app.UseCors(opt=>{
+
+            //     opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+            // });
 
             app.UseAuthorization();
 
