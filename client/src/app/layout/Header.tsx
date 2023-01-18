@@ -2,9 +2,12 @@ import { ShoppingCart } from "@mui/icons-material";
 import {
   Badge,
   IconButton,
+  List,
+  ListItem,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
+import SignedInMenu from "./SignedInMenu";
 
 interface Props {
   darkMode: boolean;
@@ -17,13 +20,14 @@ const midlinks = [
   { title: "Contact", path: "/contact" },
 ];
 
-const rightlinks = [
+const rightLinks = [
   { title: "Login", path: "/login" },
   { title: "Register", path: "/register" },
 ];
 
 export default function Header({ darkMode, handleThemeChange }: Props) {
-
+  
+  const { user } = useAppSelector(state => state.account);
   const {basket} = useAppSelector(state => state.basket);
   const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
  
@@ -70,17 +74,22 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                     <ShoppingCart />
                   </Badge>
                 </IconButton>
-                {rightlinks.map(({ title, path }) => (
-                  <li className="nav-item" key={path}>
-                    <a
-                      className="nav-link active"
-                      aria-current="page"
-                      href={path}
-                    >
-                      {title}
-                    </a>
-                  </li>
-                ))}
+                {user ? (
+                        <SignedInMenu />
+                    ) : (
+                        <List sx={{ display: 'flex' }}>
+                            {rightLinks.map(({ title, path }) => (
+                              <ListItem
+                                component={NavLink}
+                                to={path}
+                                key={path}
+                                
+                              >
+                                {title.toUpperCase()}
+                              </ListItem>
+                            ))}
+                        </List>
+                    )}
               </ul>
             </form>
           </div>

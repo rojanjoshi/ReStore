@@ -40,7 +40,7 @@ export default function Catalog() {
 
 
 
-  if (!filtersLoaded) return <LoadingComponent message='Loading products...' />
+  if (!filtersLoaded) return <LoadingComponent message='Loading products...' /> 
 
   return (
 
