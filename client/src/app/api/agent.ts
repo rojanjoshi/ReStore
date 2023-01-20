@@ -3,7 +3,6 @@ import { PaginatedResponse } from "../models/pagination";
 import { history } from "../..";
 import { toast } from "react-toastify";
 import { store } from "../store/configureStore";
-import { User } from "../models/user";
 
 
 
@@ -87,6 +86,7 @@ const Account = {
   login: (values: any) => requests.post("account/login", values),
   register: (values: any) => requests.post("account/register", values),
   currentUser: () => requests.get("account/currentUser"),
+  fetchAddress: () => requests.get('account/savedAddress')
 };
 
 const TestErrors = {
@@ -97,11 +97,20 @@ const TestErrors = {
   getValidationError: () => requests.get('buggy/validation-error'),
 }
 
+const Orders = {
+  list: () => requests.get('orders'),
+  fetch: (id: number) => requests.get(`orders/${id}`),
+  create: (values: any) => requests.post('orders', values)
+}
+
 const agent = {
   Catalog,
   Basket,
   Account,
-  TestErrors
+  TestErrors,
+  Orders
 };
+
+
 
 export default agent;

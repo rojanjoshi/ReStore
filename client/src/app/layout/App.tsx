@@ -23,6 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import { fetchBasketAsync } from "../../features/basket/basketSlice";
 import PrivateRoute from "./PrivateRoute";
+import Orders from "../../features/order/Orders";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -83,6 +84,7 @@ function App() {
      <Route  path='/contact' component={ContactPage}/>
      <Route  path='/basket' component={BasketPage}/>
      <PrivateRoute path='/checkout' component={CheckoutPage} />
+     <PrivateRoute path='/orders' component={Orders} />
      <Route path='/login' component={Login} />
      <Route path='/register' component={Register} />
      <Route component={NotFound} />
