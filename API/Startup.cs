@@ -112,6 +112,8 @@ namespace API
 
             services.AddScoped<TokenService>();
 
+            services.AddScoped<PaymentService>();
+
             
         }
 
