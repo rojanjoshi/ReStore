@@ -1,6 +1,5 @@
 
 
-import { createTheme} from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -24,6 +23,8 @@ import { fetchBasketAsync } from "../../features/basket/basketSlice";
 import PrivateRoute from "./PrivateRoute";
 import Orders from "../../features/order/Orders";
 import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
+import { Container } from "@mui/material";
+import ServerError from "../errors/ServerError";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -44,18 +45,11 @@ function App() {
 
 
   const[darkMode, setDarkMode] = useState(false);
-  const paletteType = darkMode ? 'dark':'light';
+
   
  
   
-  const theme = createTheme({
-    palette:{
-      mode:paletteType,
-      background:{
-        default:paletteType==='light'?'#eaeaea':'#121212'
-      }
-    }
-  })
+
 
 
  
@@ -75,22 +69,24 @@ function App() {
     <ToastContainer position="bottom-right"/>
     <div style={{background:'#eaeaea'}}>
      <Header darkMode={darkMode} handleThemeChange={handleThemeChange}/>
-     <div className="container" style={{padding:'30px'}} >
-      <Switch>
-      <Route  exact path='/' component={HomePage}/>
-      <Route exact path='/catalog' component={Catalog}/>
-      <Route  path='/catalog/:id' component={ProductDetails}/>
-     <Route  path='/about' component={AboutPage}/>
-     <Route  path='/contact' component={ContactPage}/>
-     <Route  path='/basket' component={BasketPage}/>
-     <PrivateRoute path='/checkout' component={CheckoutWrapper} />
-     <PrivateRoute path='/orders' component={Orders} />
-     <Route path='/login' component={Login} />
-     <Route path='/register' component={Register} />
-     <Route component={NotFound} />
-      </Switch>
-   
-     </div>
+     <Route exact path='/' component={HomePage} />
+      <Route path={'/(.+)'} render={() => (
+        <Container  sx={{ mt: 4 }}>
+          <Switch>
+            <Route exact path='/catalog' component={Catalog} />
+            <Route path='/catalog/:id' component={ProductDetails} />
+            <Route path='/about' component={AboutPage} />
+            <Route path='/contact' component={ContactPage} />
+            <Route path='/server-error' component={ServerError} />
+            <Route path='/basket' component={BasketPage} />
+            <PrivateRoute path='/checkout' component={CheckoutWrapper} />
+            <PrivateRoute path='/orders' component={Orders} />
+            <Route path='/login' component={Login} />
+            <Route path='/register' component={Register} />
+            <Route component={NotFound} />
+          </Switch>
+        </Container>
+      )} />
      </div>
     </>
 

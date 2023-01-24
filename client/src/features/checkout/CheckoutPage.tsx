@@ -206,7 +206,7 @@ export default function CheckoutPage() {
                 )}
                 <LoadingButton
                   loading={loading}
-                  disabled={!methods.formState.isValid}
+                  disabled={submitDisabled()}
                   variant="contained"
                   type="submit"
                   sx={{ mt: 3, ml: 1 }}
